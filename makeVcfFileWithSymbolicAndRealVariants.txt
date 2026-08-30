@@ -1,25 +1,3 @@
-## It is not always possible to find a patient's molecular diagnosis after next generation sequencing.
-## Among the many possible reasons for this, lack of coverage of targets regions,
-##    harbouring the pathogenic variants, is one of them.
-## To address this possibility, gaps and regions with no coverage are converted to symbolic variants
-##    which are subsequently joined in a vcf file with real variants found in the patient.
-##
-## The commands below convert sequencing gaps, and regions with no coverage, to symbolic variants.
-## The symbolic variants are then merged with real variants found in the patient.
-## The resulting vcf file, combining real and symbolic variants, can then be annotated and analysed
-##     in search of genotypes suggesting an association with the phenotypes observed in the patient.
-##
-## Required programs:
-##    bcftools
-##    bedtools
-##    samtools
-##
-## Required files:
-##    gaps.csv file:                                                 e.g. sample.gaps.csv
-##    PerTargetMetrics.txt                                           e.g. sample.PerTargetMetrics.txt
-##    Human genome reference sequence (GRCh37 or GRCh38, as needed): e.g. Homo_sapiens.GRCh37.75.dna.primary_assembly.fa
-##    File with metadata for structural variants:                    e.g. sample.SVmetadata.txt (may be constructed manually, or may be obtained from sample.SV.vcf.gz)
-##    vcf file with real variants in the patient:                    e.g. sample.vcf.gz
 
 
 ## Convert gap file from csv to tsv.
@@ -50,9 +28,6 @@ samtools faidx Homo_sapiens.GRCh37.75.dna.primary_assembly.fa -r sample.GapsPlus
 ## For a homozygote symbolic variant:
 sed -f 18_commands_sed_deshacerFasta sample.GapsPlusTargetsinVcfFormat.fa | sed -f 19_commands_sed_toTabs | grep '>' | sed -e 's/>//' | awk 'BEGIN{FS=OFS="\t"}{print $1,$2,".",$4,"<DEL>","999","PASS","END="$3";SVTYPE=DEL;SVLEN=-"$3-$2"\tGT:FT:GQ:PL:PR:SR\t1/1:PASS:999:999,0,999:42,14:262,39"}' > sample.almostSymbolic.tsv
 
-## For a heterozyote symbolic variant:
-##    sed -f 18_commands_sed_deshacerFasta sample.GapsPlusTargetsinVcfFormat.fa | sed -f 19_commands_sed_toTabs | grep '>' | sed -e 's/>//' | awk 'BEGIN{FS=OFS="\t"}{print $1,$2,".",$4,"<DEL>","999","PASS","END="$3";SVTYPE=DEL;SVLEN=-"$3-$2"\tGT:FT:GQ:PL:PR:SR\t0/1:PASS:999:999,0,999:42,14:262,39"}' > sample.almostSymbolic.tsv
-
 ## Get the base to be used for the REF field in the vcf file.
 cut -f4 sample.almostSymbolic.tsv | cut -c1 > sample.1bp.txt
 
@@ -76,3 +51,41 @@ bcftools concat -a sample.vcf.gz sample.finalSymbolicVars0xGT11.vcf.gz | bcftool
 
 ## Index the vcf file having real and symbolic variants.
 bcftools index -c -f sample.Vars0xGT11.vcf.gz
+
+
+
+
+
+## For a heterozyote symbolic variant:
+sed -f 18_commands_sed_deshacerFasta sample.GapsPlusTargetsinVcfFormat.fa | sed -f 19_commands_sed_toTabs | grep '>' | sed -e 's/>//' | awk 'BEGIN{FS=OFS="\t"}{print $1,$2,".",$4,"<DEL>","999","PASS","END="$3";SVTYPE=DEL;SVLEN=-"$3-$2"\tGT:FT:GQ:PL:PR:SR\t0/1:PASS:999:999,0,999:42,14:262,39"}' > sample.almostSymbolic.tsv
+
+## Get the base to be used for the REF field in the vcf file.
+cut -f4 sample.almostSymbolic.tsv | cut -c1 > sample.1bp.txt
+
+## Continue formatting the rows with the symbolic variants.
+paste sample.1bp.txt sample.almostSymbolic.tsv | awk '{FS=OFS="\t"}{print $2,$3,$4,$1,$6,$7,$8,$9,$10,$11}' > sample.onlySymbolicVars.tsv
+
+## Get the metadata from a SV file.
+bcftools view -h sample.SV.vcf.gz > sample.SVmetadata.txt
+
+## Finish cthe construction of the vcf file with symbolic variants.
+cat sample.SVmetadata.txt sample.onlySymbolicVars.tsv > sample.preFinalSymbolicVars.vcf
+
+## Sort and compress the vcf file with the symbolic variants.
+bcftools sort -O z -o sample.finalSymbolicVars0xGT01.vcf.gz sample.preFinalSymbolicVars.vcf
+
+## Index the file.
+bcftools index -c -f sample.finalSymbolicVars0xGT01.vcf.gz
+
+## Concatenate the real and symbolic variants.
+bcftools concat -a sample.vcf.gz sample.finalSymbolicVars0xGT01.vcf.gz | bcftools sort -O z -o sample.Vars0xGT01.vcf.gz
+
+## Index the vcf file having real and symbolic variants.
+bcftools index -c -f sample.Vars0xGT01.vcf.gz
+
+
+
+
+
+
+
