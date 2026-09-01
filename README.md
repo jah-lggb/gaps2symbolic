@@ -30,6 +30,7 @@ The commands in gaps2symbolic convert sequencing gaps, and regions with no cover
 
 ## Installation
 Download and extract.
+
 Five files should be present:
 - README.md
 - makeVcfFileWithSymbolicAndRealVariants.txt
@@ -39,5 +40,6 @@ Five files should be present:
 
 ## Usage
 Run the commands in makeVcfFileWithSymbolicAndRealVariants.txt
+
 The path to the sample files and to the reference genome would need to be provided if they are in a different directory.
 
