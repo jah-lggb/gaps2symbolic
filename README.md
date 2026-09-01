@@ -69,7 +69,7 @@ Additional files required
 Installation
 Download and extract.
 Five files should be present:
-- README
+- README.md
 - makeVcfFileWithSymbolicAndRealVariants.txt
 - 12_commands_sed_clean
 - 18_commands_sed_deshacerFasta
