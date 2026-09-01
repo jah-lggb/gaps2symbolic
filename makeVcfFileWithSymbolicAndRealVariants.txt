@@ -34,10 +34,10 @@ cut -f4 sample.almostSymbolic.tsv | cut -c1 > sample.1bp.txt
 ## Continue formatting the rows with the symbolic variants.
 paste sample.1bp.txt sample.almostSymbolic.tsv | awk '{FS=OFS="\t"}{print $2,$3,$4,$1,$6,$7,$8,$9,$10,$11}' > sample.onlySymbolicVars.tsv
 
-## Get the metadata from a SV file.
+## Get the metadata from an SV file.
 bcftools view -h sample.SV.vcf.gz > sample.SVmetadata.txt
 
-## Finish cthe construction of the vcf file with symbolic variants.
+## Finish the construction of the vcf file with symbolic variants.
 cat sample.SVmetadata.txt sample.onlySymbolicVars.tsv > sample.preFinalSymbolicVars.vcf
 
 ## Sort and compress the vcf file with the symbolic variants.
@@ -65,10 +65,10 @@ cut -f4 sample.almostSymbolic.tsv | cut -c1 > sample.1bp.txt
 ## Continue formatting the rows with the symbolic variants.
 paste sample.1bp.txt sample.almostSymbolic.tsv | awk '{FS=OFS="\t"}{print $2,$3,$4,$1,$6,$7,$8,$9,$10,$11}' > sample.onlySymbolicVars.tsv
 
-## Get the metadata from a SV file.
+## Get the metadata from an SV file.
 bcftools view -h sample.SV.vcf.gz > sample.SVmetadata.txt
 
-## Finish cthe construction of the vcf file with symbolic variants.
+## Finish the construction of the vcf file with symbolic variants.
 cat sample.SVmetadata.txt sample.onlySymbolicVars.tsv > sample.preFinalSymbolicVars.vcf
 
 ## Sort and compress the vcf file with the symbolic variants.
