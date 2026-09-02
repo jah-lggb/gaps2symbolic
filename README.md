@@ -20,21 +20,21 @@ The commands in gaps2symbolic convert sequencing gaps, and regions with no cover
 <a name="software_requirements"></a>
 ## Software requirements
 - **bedtools**
-- **samtools**
 - **bcftools**
+- **samtools**
 
 
 <a name="required_sample_files"></a>
 ## Required sample files
-- **gaps.csv** file (e.g. sample.gaps.csv)
-- **PerTargetMetrics.txt** (e.g. sample.PerTargetMetrics.txt)
-- **File with metadata for structural variants**; it may be manually constructed (sample.SVmetadata.txt), or it may be obtained from sample.SV.vcf.gz
-- **vcf file with the real variants** in the patient (e.g. sample.vcf.gz)
+- gaps.csv file (e.g. **sample.gaps.csv**)
+- PerTargetMetrics.txt (e.g. **sample.PerTargetMetrics.txt**)
+- File with metadata for structural variants; it may be manually constructed or it may be obtained from an appropriate file (e.g., **sample.SV.vcf.gz**)
+- vcf file with the real variants in the patient (e.g. **sample.vcf.gz**)
 
 
 <a name="additional_files_required"></a>
 ## Additional files required
-- **Human genome reference sequence file**, GRCh37 or GRCh38 (e.g., Homo_sapiens.GRCh37.75.dna.primary_assembly.fa)
+- Human genome reference sequence file, GRCh37 or GRCh38 (e.g., **Homo_sapiens.GRCh37.75.dna.primary_assembly.fa**)
 
 
 <a name="installation"></a>
@@ -42,6 +42,7 @@ The commands in gaps2symbolic convert sequencing gaps, and regions with no cover
 Download and extract.
 
 Five files should be present:
+
 - README.md
 - makeVcfFileWithSymbolicAndRealVariants.txt
 - 12_commands_sed_clean
@@ -51,7 +52,7 @@ Five files should be present:
 
 <a name="usage"></a>
 ## Usage
-Run the commands in makeVcfFileWithSymbolicAndRealVariants.txt
+Run the commands in **makeVcfFileWithSymbolicAndRealVariants.txt**
 
 The path to the sample files and to the reference genome needs to be provided if they are in a different directory.
 
