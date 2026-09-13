@@ -8,13 +8,13 @@ It is not always possible to find a patient's molecular diagnosis after next gen
 
 To address this possibility, gaps and regions with no coverage are converted to symbolic variants which are subsequently concatenated, in a vcf file, with real variants found in the patient.
 
-## What the commands do.
+## What the commands do
 The commands in gaps2symbolic convert sequencing gaps, and regions with no coverage, to symbolic variants. The symbolic variants are then concatenated with real variants found in the patient. The resulting vcf file, combining real and symbolic variants, can then be annotated and analysed in search of genotypes suggesting an association with the phenotypes observed in the patient.
 
 
 ### Table of Contents
 * [Software requirements](#software_requirements)
-* [Required sample files](#required_sample_files)
+* [Required files for each sample](#required_sample_files)
 * [Additional files required](#additional_files_required)
 * [Installation](#installation)
 * [Usage](#usage)
@@ -28,7 +28,7 @@ The commands in gaps2symbolic convert sequencing gaps, and regions with no cover
 
 
 <a name="required_sample_files"></a>
-## Required sample files
+## Required files for each sample
 - gaps.csv file (e.g. **sample.gaps.csv**)
 - PerTargetMetrics.txt (e.g. **sample.PerTargetMetrics.txt**)
 - File with metadata for structural variants; it may be manually constructed or it may be obtained from an appropriate file (e.g., **sample.SV.vcf.gz**)
