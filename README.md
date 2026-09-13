@@ -1,12 +1,15 @@
 # gaps2symbolic
 
-Converts gaps and regions with no coverage -from next generation sequencing experiments- to symbolic variants in vcf format, and adds them to the vcf file with the patient's observed variants. This makes it possible to analyse gaps and regions with no coverage as if they were variants. The annotation and prioritization of these symbolic variants, along the real one, may point to false negative results.
+## Summary
+Converts gaps and regions with no coverage -from next generation sequencing experiments- to symbolic variants in vcf format, and adds them to the vcf file with the patient's observed variants. This makes it possible to analyse gaps and regions with no coverage as if they were variants. The annotation and prioritization of these symbolic variants, along the real ones, may point to false negative results.
 
-It is not always possible to find a patient's molecular diagnosis after next generation sequencing. Among the many possible reasons for this, lack of coverage of targets regions, harbouring the pathogenic variants, is one of them.
+## Background
+It is not always possible to find a patient's molecular diagnosis after next generation sequencing. Among the many possible reasons for this, lack of coverage of target regions, harbouring the pathogenic variants, is one of them.
 
-To address this possibility, gaps and regions with no coverage are converted to symbolic variants which are subsequently concatenated in a vcf file with real variants found in the patient.
+To address this possibility, gaps and regions with no coverage are converted to symbolic variants which are subsequently concatenated, in a vcf file, with real variants found in the patient.
 
-The commands in gaps2symbolic convert sequencing gaps, and regions with no coverage, to symbolic variants. The symbolic variants are then merged with real variants found in the patient. The resulting vcf file, combining real and symbolic variants, can then be annotated and analysed in search of genotypes suggesting an association with the phenotypes observed in the patient.
+## What the commands do.
+The commands in gaps2symbolic convert sequencing gaps, and regions with no coverage, to symbolic variants. The symbolic variants are then concatenated with real variants found in the patient. The resulting vcf file, combining real and symbolic variants, can then be annotated and analysed in search of genotypes suggesting an association with the phenotypes observed in the patient.
 
 
 ### Table of Contents
@@ -41,7 +44,7 @@ The commands in gaps2symbolic convert sequencing gaps, and regions with no cover
 ## Installation
 Download and extract.
 
-Five files should be present:
+Five files should be available:
 
 - README.md
 - makeVcfFileWithSymbolicAndRealVariants.txt
@@ -54,5 +57,5 @@ Five files should be present:
 ## Usage
 Run the commands in **makeVcfFileWithSymbolicAndRealVariants.txt**
 
-The path to the sample files and to the reference genome needs to be provided if they are in a different directory.
+If the sample's files and the reference genome are in a different directory, their paths need to be provided.
 
