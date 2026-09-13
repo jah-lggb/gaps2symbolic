@@ -3,7 +3,7 @@
 ## Convert gap file from csv to tsv.
 cat sample.gaps.csv | tr , "\t" > sample.gaps.tsv
 
-## For file PerTargetMetrics.txt, extract targets with no coverage.
+## Extract targets with no coverage from the file PerTargetMetrics.txt.
 awk '{if ($7 == 0) print $_}' sample.PerTargetMetrics.txt > sample.PerTargetMetrics0.txt
 
 ## Find intersecting regions in gaps.tsv and PerTargetMetrics.txt files.
@@ -15,16 +15,16 @@ awk '{print "/"$7"/d"}' sample.intersections.PerTargetMetrics0.txt > sample.inte
 ## Remove intersections from the gaps.tsv file.
 sed -f sample.intersectionsToDeleteFromGap_tsv.txt sample.gaps.tsv > sample.almostCleanGaps.tsv.txt
 
-## Join gaps and targets with no coverage.
+## Concatenate gaps and targets with no coverage.
 cut -f1-3 sample.almostCleanGaps.tsv.txt sample.PerTargetMetrics0.txt | sed -f 12_commands_sed_clean | bedtools sort > sample.cleanGapsPlusTargets.bed
 
-## Get the position 5' to the start of the gap, to get the vcf format for a deletion.
+## To begin constructing the vcf format for the gap or target with no coverage, get the position 5' (immediately to the left) of the start coordinate of the gap or target with no coverage.
 awk '{print $1":"$2-1"-"$3}' sample.cleanGapsPlusTargets.bed > sample.GapsPlusTargetsinVcfFormat.txt
 
-## Obtain the base, from the human reference genome, corresponding to the position immediately before de gap.
+## From the human reference genome, obtain the base corresponding to the position captured above (the coordinate immediately to the left of the gap or target region wit no coverage).
 samtools faidx Homo_sapiens.GRCh37.75.dna.primary_assembly.fa -r sample.GapsPlusTargetsinVcfFormat.txt  -o sample.GapsPlusTargetsinVcfFormat.fa
 
-## Start constructing the vcf row for the symbolic variants.
+## Start constructing the vcf row for each symbolic variant.
 ## For a homozygote symbolic variant:
 sed -f 18_commands_sed_deshacerFasta sample.GapsPlusTargetsinVcfFormat.fa | sed -f 19_commands_sed_toTabs | grep '>' | sed -e 's/>//' | awk 'BEGIN{FS=OFS="\t"}{print $1,$2,".",$4,"<DEL>","999","PASS","END="$3";SVTYPE=DEL;SVLEN=-"$3-$2"\tGT:FT:GQ:PL:PR:SR\t1/1:PASS:999:999,0,999:42,14:262,39"}' > sample.almostSymbolic.tsv
 
@@ -37,7 +37,7 @@ paste sample.1bp.txt sample.almostSymbolic.tsv | awk '{FS=OFS="\t"}{print $2,$3,
 ## Get the metadata from an SV file.
 bcftools view -h sample.SV.vcf.gz > sample.SVmetadata.txt
 
-## Finish the construction of the vcf file with symbolic variants.
+## Finish writing the vcf file containing the symbolic variants.
 cat sample.SVmetadata.txt sample.onlySymbolicVars.tsv > sample.preFinalSymbolicVars.vcf
 
 ## Sort and compress the vcf file with the symbolic variants.
@@ -68,7 +68,7 @@ paste sample.1bp.txt sample.almostSymbolic.tsv | awk '{FS=OFS="\t"}{print $2,$3,
 ## Get the metadata from an SV file.
 bcftools view -h sample.SV.vcf.gz > sample.SVmetadata.txt
 
-## Finish the construction of the vcf file with symbolic variants.
+## Finish writing the vcf file containing the symbolic variants.
 cat sample.SVmetadata.txt sample.onlySymbolicVars.tsv > sample.preFinalSymbolicVars.vcf
 
 ## Sort and compress the vcf file with the symbolic variants.
