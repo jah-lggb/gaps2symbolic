@@ -44,13 +44,10 @@ The commands in gaps2symbolic convert sequencing gaps, and regions with no cover
 ## Installation
 Download and extract.
 
-Five files should be available:
+Two files should be available:
 
 - README.md
 - makeVcfFileWithSymbolicAndRealVariants.txt
-- 12_commands_sed_clean
-- 18_commands_sed_deshacerFasta
-- 19_commands_sed_toTabs
 
 
 <a name="usage"></a>
